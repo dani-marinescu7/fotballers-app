@@ -25,7 +25,7 @@ const LoginPage = () => {
                 backgroundColor={theme.palette.background.alt}
             >
                 <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
-                    The Sideline: Where passionate football fans gather for the latest news, banter, and match analysis.
+                    Where football fans gather for the latest news and match analysis!
                 </Typography>
                 <Form />
             </Box>
