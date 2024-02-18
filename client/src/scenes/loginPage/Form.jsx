@@ -5,7 +5,7 @@ import {
   TextField,
   useMediaQuery,
   Typography,
-  useTheme,
+  useTheme, Autocomplete,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -15,6 +15,31 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
+const axios = require('axios');
+
+const handleSearch = async (word) => {
+  if (word.length >= 3) {
+    try {
+      const options = {
+        method: 'GET',
+        url: 'https://api-football-v1.p.rapidapi.com/v3/teams',
+        params: {search: word},
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+          'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+        }
+      };
+
+      const response = await axios(options);
+      return response.data.response;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  } else {
+    return [];
+  }
+};
 
 const registerSchema = yup.object().shape({
   username: yup.string().required("required"),
@@ -46,6 +71,7 @@ const initialValuesLogin = {
 
 const Form = () => {
   const [pageType, setPageType] = useState("login");
+  const [otions, setOptions] = useState([]);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,6 +162,18 @@ const Form = () => {
                   error={Boolean(touched.username) && Boolean(errors.username)}
                   helperText={touched.username && errors.username}
                   sx={{ gridColumn: "span 2" }}
+                />
+                <Autocomplete
+                    disablePortal
+                    id="favorite-team"
+                    options={[]}
+                    getOptionLabel={(options) => options.team.name || ''}
+                    onInputChange={async (event, newInputValue) => {
+                      const fetchedTeams = await handleSearch(newInputValue);
+                      setOptions(fetchedTeams);
+                    }}
+                    sx={{ gridColumn: "span 2" }}
+                    renderInput={(params) => <TextField {...params} label="Favorite team" />}
                 />
                 <TextField
                   label="Location"
