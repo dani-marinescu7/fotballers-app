@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
-const axios = require('axios');
+import axios from "axios";
 
 const handleSearch = async (word) => {
   if (word.length >= 3) {
@@ -25,12 +25,13 @@ const handleSearch = async (word) => {
         url: 'https://api-football-v1.p.rapidapi.com/v3/teams',
         params: {search: word},
         headers: {
-          'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+          'X-RapidAPI-Key': 'c26b60939emsha8730bbbc802d93p1a2236jsn570bcc9e4713',
           'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
         }
       };
 
       const response = await axios(options);
+      console.log(response.data);
       return response.data.response;
     } catch (error) {
       console.error(error);
@@ -71,7 +72,7 @@ const initialValuesLogin = {
 
 const Form = () => {
   const [pageType, setPageType] = useState("login");
-  const [otions, setOptions] = useState([]);
+  const [options, setOptions] = useState([]);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -166,7 +167,7 @@ const Form = () => {
                 <Autocomplete
                     disablePortal
                     id="favorite-team"
-                    options={[]}
+                    options={options}
                     getOptionLabel={(options) => options.team.name || ''}
                     onInputChange={async (event, newInputValue) => {
                       const fetchedTeams = await handleSearch(newInputValue);
