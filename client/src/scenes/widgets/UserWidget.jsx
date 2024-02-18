@@ -39,8 +39,7 @@ const UserWidget = ({ userId, picturePath }) => {
   }
 
   const {
-    firstName,
-    lastName,
+    username,
     location,
     occupation,
     viewedProfile,
@@ -70,7 +69,7 @@ const UserWidget = ({ userId, picturePath }) => {
                 },
               }}
             >
-              {firstName} {lastName}
+              {username}
             </Typography>
             <Typography color={medium}>{friends.length} friends</Typography>
           </Box>
