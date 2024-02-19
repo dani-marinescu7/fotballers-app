@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="223b2e8a-f475-40a7-995d-fee44a5190a9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/AdvertWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/AdvertWidget.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/posts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/data/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middleware/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/WhatsApp Image 2024-02-10 at 09.48.53.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/server/public/assets/WhatsApp Image 2024-02-10 at 09.48.53.jpeg" afterDir="false" />
-    </list>
+    <list default="true" id="223b2e8a-f475-40a7-995d-fee44a5190a9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +42,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Merging master",
     "last_opened_file_path": "/Users/macbook/Documents/Personal Projects/the-sideline/client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
