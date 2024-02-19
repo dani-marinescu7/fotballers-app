@@ -44,6 +44,7 @@ const handleSearch = async (word) => {
 
 const registerSchema = yup.object().shape({
   username: yup.string().required("required"),
+  //favoriteTeam: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
   location: yup.string().required("required"),
@@ -58,6 +59,7 @@ const loginSchema = yup.object().shape({
 
 const initialValuesRegister = {
   username: "",
+  favoriteTeam: "",
   email: "",
   password: "",
   location: "",
@@ -158,17 +160,21 @@ const Form = () => {
                   label="Username"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.lastName}
+                  value={values.username}
                   name="username"
                   error={Boolean(touched.username) && Boolean(errors.username)}
                   helperText={touched.username && errors.username}
                   sx={{ gridColumn: "span 2" }}
                 />
                 <Autocomplete
-                    disablePortal
-                    id="favorite-team"
+                    onBlur={handleBlur}
                     options={options}
+                    name="favoriteTeam"
                     getOptionLabel={(options) => options.team.name || ''}
+                    value={values.favoriteTeam}
+                    onChange={(_, newTeam) => {
+                      setFieldValue('favoriteTeam', newTeam);
+                    }}
                     onInputChange={async (event, newInputValue) => {
                       const fetchedTeams = await handleSearch(newInputValue);
                       setOptions(fetchedTeams);
