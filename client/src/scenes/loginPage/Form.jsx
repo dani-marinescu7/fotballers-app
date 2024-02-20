@@ -44,7 +44,7 @@ const handleSearch = async (word) => {
 
 const registerSchema = yup.object().shape({
   username: yup.string().required("required"),
-  //favoriteTeam: yup.string().required("required"),
+  favoriteTeam: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
   location: yup.string().required("required"),
@@ -75,6 +75,7 @@ const initialValuesLogin = {
 const Form = () => {
   const [pageType, setPageType] = useState("login");
   const [options, setOptions] = useState([]);
+  const [favoriteTeam, setFavoriteTeam] = useState("");
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -171,10 +172,6 @@ const Form = () => {
                     options={options}
                     name="favoriteTeam"
                     getOptionLabel={(options) => options.team.name || ''}
-                    value={values.favoriteTeam}
-                    onChange={(_, newTeam) => {
-                      setFieldValue('favoriteTeam', newTeam);
-                    }}
                     onInputChange={async (event, newInputValue) => {
                       const fetchedTeams = await handleSearch(newInputValue);
                       setOptions(fetchedTeams);
