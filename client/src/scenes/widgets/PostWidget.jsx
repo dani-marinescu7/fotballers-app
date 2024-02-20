@@ -15,7 +15,7 @@ import { setPost } from "state";
 const PostWidget = ({
   postId,
   postUserId,
-  name,
+  username,
   description,
   location,
   picturePath,
@@ -29,7 +29,6 @@ const PostWidget = ({
   const loggedInUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
-
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
@@ -51,7 +50,7 @@ const PostWidget = ({
     <WidgetWrapper m="2rem 0">
       <Friend
         friendId={postUserId}
-        name={name}
+        name={username}
         subtitle={location}
         userPicturePath={userPicturePath}
       />
@@ -95,7 +94,7 @@ const PostWidget = ({
       {isComments && (
         <Box mt="0.5rem">
           {comments.map((comment, i) => (
-            <Box key={`${name}-${i}`}>
+            <Box key={`${username}-${i}`}>
               <Divider />
               <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
                 {comment}
