@@ -5,7 +5,7 @@ import {
   TextField,
   useMediaQuery,
   Typography,
-  useTheme, Autocomplete,
+  useTheme, Autocomplete
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -31,7 +31,6 @@ const handleSearch = async (word) => {
       };
 
       const response = await axios(options);
-      console.log(response.data);
       return response.data.response;
     } catch (error) {
       console.error(error);
@@ -44,7 +43,6 @@ const handleSearch = async (word) => {
 
 const registerSchema = yup.object().shape({
   username: yup.string().required("required"),
-  favoriteTeam: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
   location: yup.string().required("required"),
@@ -90,6 +88,7 @@ const Form = () => {
       formData.append(value, values[value]);
     }
     formData.append("picturePath", values.picture.name);
+    formData.append("favoriteTeam", favoriteTeam);
 
     const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
@@ -175,6 +174,7 @@ const Form = () => {
                     onInputChange={async (event, newInputValue) => {
                       const fetchedTeams = await handleSearch(newInputValue);
                       setOptions(fetchedTeams);
+                      setFavoriteTeam(newInputValue);
                     }}
                     sx={{ gridColumn: "span 2" }}
                     renderInput={(params) => <TextField {...params} label="Favorite team" />}
