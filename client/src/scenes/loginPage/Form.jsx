@@ -5,7 +5,7 @@ import {
   TextField,
   useMediaQuery,
   Typography,
-  useTheme, Autocomplete
+  useTheme, Autocomplete, Alert
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -74,6 +74,7 @@ const Form = () => {
   const [pageType, setPageType] = useState("login");
   const [options, setOptions] = useState([]);
   const [favoriteTeam, setFavoriteTeam] = useState("");
+  const [flashMessage, setFlashMessage] = useState("");
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -113,6 +114,7 @@ const Form = () => {
     });
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
+    console.log(loggedIn)
     if (loggedIn) {
       dispatch(
         setLogin({
@@ -262,6 +264,17 @@ const Form = () => {
 
           {/* BUTTONS */}
           <Box>
+            {flashMessage && (
+                <Alert
+                    variant="outlined"
+                    severity="info"
+                    sx={{
+                      m: "1rem 0",
+                    }}
+                >
+                  {flashMessage}
+                </Alert>
+            )}
             <Button
               fullWidth
               type="submit"
