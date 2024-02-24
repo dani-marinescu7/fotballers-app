@@ -4,13 +4,14 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import {Box, Divider, IconButton, TextField, Typography, useTheme} from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
+import UserImage from "../../components/UserImage";
 
 const PostWidget = ({
   postId,
@@ -24,6 +25,7 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -41,6 +43,24 @@ const PostWidget = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ userId: loggedInUserId }),
+    });
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
+  };
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const putComment = async (event) => {
+    event.preventDefault();
+    const response = await fetch(`http://localhost:3001/posts/${postId}/comments`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(inputValue),
     });
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
@@ -93,10 +113,21 @@ const PostWidget = ({
       </FlexBetween>
       {isComments && (
         <Box mt="0.5rem">
+          <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+            <UserImage image={userPicturePath} size="40px"/>
+            <form onSubmit={putComment} style={{ width: '100%'}} >
+              <TextField
+                  label="Add a comment"
+                  value={inputValue}
+                  onChange={handleChange}
+                  style={{ width: '100%'}}
+              />
+            </form>
+          </Box>
           {comments.map((comment, i) => (
-            <Box key={`${username}-${i}`}>
-              <Divider />
-              <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+              <Box key={`${username}-${i}`}>
+                <Divider/>
+                <Typography sx={{color: main, m: "0.5rem 0", pl: "1rem"}}>
                 {comment}
               </Typography>
             </Box>
