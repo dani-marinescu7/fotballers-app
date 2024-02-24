@@ -66,7 +66,26 @@ const StandingsWidget = ({ userId }) => {
 
   return (
       <div className="standings-widget">
-        {/* Display loading, error, or standings */}
+        {league && (
+            <table>
+              <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>Points</th>
+              </tr>
+              </thead>
+              <tbody>
+              {league[0].league.standings[0].map((teamData) => (
+                  <tr key={teamData.team.id}>
+                    <td>{teamData.rank}</td>
+                    <td>{teamData.team.name}</td>
+                    <td>{teamData.points}</td>
+                  </tr>
+              ))}
+              </tbody>
+            </table>
+        )}
       </div>
   );
 };
