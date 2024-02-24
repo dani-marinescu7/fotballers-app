@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useSelector } from "react-redux";
+import WidgetWrapper from "../../components/WidgetWrapper";
+import FlexBetween from "../../components/FlexBetween";
+import {Box, Divider, Typography, useTheme} from "@mui/material";
+import TeamLogo from "../../components/TeamLogo";
 
 const StandingsWidget = ({ userId }) => {
   const [user, setUser] = useState(null);
   const [league, setLeague] = useState(null);
   const token = useSelector((state) => state.token);
+  const { palette } = useTheme();
+  const dark = palette.neutral.dark;
+  const medium = palette.neutral.medium;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,36 +64,60 @@ const StandingsWidget = ({ userId }) => {
     fetchData();
   }, [userId]);
 
-  console.log(league);
-
 
   if (!user) {
     return null;
   }
 
   return (
-      <div className="standings-widget">
-        {league && (
-            <table>
-              <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Team</th>
-                <th>Points</th>
-              </tr>
-              </thead>
-              <tbody>
-              {league[0].league.standings[0].map((teamData) => (
-                  <tr key={teamData.team.id}>
-                    <td>{teamData.rank}</td>
-                    <td>{teamData.team.name}</td>
-                    <td>{teamData.points}</td>
-                  </tr>
-              ))}
-              </tbody>
-            </table>
+      <WidgetWrapper>
+        {/* FIRST ROW */}
+        { league && (
+        <FlexBetween
+            gap="0.5rem"
+            pb="1.1rem"
+        >
+          <FlexBetween gap="1rem">
+            <TeamLogo image={league[0].league.logo}  alt='logo'/>
+            <Box>
+              <Typography
+                  variant="h4"
+                  color={dark}
+                  fontWeight="500"
+                  sx={{
+                    "&:hover": {
+                      color: palette.primary.light,
+                      cursor: "pointer",
+                    },
+                  }}
+              >
+                {league[0].league.name}
+              </Typography>
+            </Box>
+          </FlexBetween>
+        </FlexBetween>
         )}
-      </div>
+
+        <Divider />
+
+        {league && (
+            <Box p="1rem 0">
+              <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+                <Typography color={medium}>Team</Typography>
+                <Typography color={medium} ml="auto">Points</Typography>
+              </Box>
+              {league[0].league.standings[0].map(team => (
+                  <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+                    <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+                      <Typography color={medium}>{team.rank}</Typography>
+                      <Typography color={medium}>{team.team.name}</Typography>
+                    </Box>
+                    <Typography color={medium} ml="auto">{team.points}</Typography>
+                  </Box>
+              ))}
+            </Box>
+        )}
+      </WidgetWrapper>
   );
 };
 
