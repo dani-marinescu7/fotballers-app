@@ -107,7 +107,7 @@ const StandingsWidget = ({ userId }) => {
                 <Typography color={medium} ml="auto">Points</Typography>
               </Box>
               {league[0].league.standings[0].map(team => (
-                  <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+                  <Box key={team.rank} display="flex" alignItems="center" gap="1rem" mb="0.5rem">
                     <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
                       <Typography color={medium}>{team.rank}</Typography>
                       <Typography color={medium}>{team.team.name}</Typography>
