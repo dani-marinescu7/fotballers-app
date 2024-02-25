@@ -16,6 +16,7 @@ import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import axios from "axios";
+import Toast from "../../components/Toast";
 
 const handleSearch = async (word) => {
   if (word.length >= 3) {
@@ -74,6 +75,8 @@ const Form = () => {
   const [pageType, setPageType] = useState("login");
   const [options, setOptions] = useState([]);
   const [favoriteTeam, setFavoriteTeam] = useState("");
+  const [forgotPasswordClick, setForgotPasswordClick] = useState(false);
+  const [wrongCredentials, setWrongCredentials] = useState(false);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -106,21 +109,28 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggedInResponse.json();
-    onSubmitProps.resetForm();
-    if (loggedIn) {
-      dispatch(
-        setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
-        })
-      );
-      navigate("/home");
+    try {
+      const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const loggedIn = await loggedInResponse.json();
+      onSubmitProps.resetForm();
+      if (loggedIn) {
+        dispatch(
+            setLogin({
+              user: loggedIn.user,
+              token: loggedIn.token,
+            })
+        );
+        navigate("/home");
+      } else {
+        setWrongCredentials(true);
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      setWrongCredentials(true);
     }
   };
 
@@ -141,7 +151,7 @@ const Form = () => {
       console.error("Error response from server:", errorData);
     } else {
       const forgotPassword = await forgotPasswordResponse.json();
-      // Handle successful response
+      setForgotPasswordClick(true);
     }
   };
 
@@ -325,6 +335,8 @@ const Form = () => {
                   Forgot password? Click here!
                   </Typography>
                 : <Typography></Typography>}
+            {forgotPasswordClick && <Toast message="Please check your email!" severity="success" />}
+            {wrongCredentials && <Toast message="Incorrect username or password. Please try again!" severity="error" />}
           </Box>
         </form>
       )}
