@@ -52,18 +52,25 @@ const PostWidget = ({
     setInputValue(event.target.value);
   };
 
-  const putComment = async (event) => {
+  const postComment = async (event) => {
     event.preventDefault();
+
     const response = await fetch(`http://localhost:3001/posts/${postId}/comments`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(inputValue),
+      body: JSON.stringify({ comment: [inputValue] }),
     });
-    const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Error response from server:", errorData);
+    } else {
+      const updatedPost = await response.json();
+      dispatch(setPost({ post: updatedPost }));
+    }
   };
 
   return (
@@ -115,7 +122,7 @@ const PostWidget = ({
         <Box mt="0.5rem">
           <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
             <UserImage image={userPicturePath} size="40px"/>
-            <form onSubmit={putComment} style={{ width: '100%'}} >
+            <form onSubmit={postComment} style={{ width: '100%'}} >
               <TextField
                   label="Add a comment"
                   value={inputValue}

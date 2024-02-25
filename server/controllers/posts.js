@@ -75,8 +75,8 @@ export const likePost = async (req, res) => {
 export const comment = async (req, res) => {
   try {
     const updatedPost = await Post.findByIdAndUpdate(
-        req.params,
-        { comments: req.body },
+        req.params.id,
+        { $push: { comments: req.body.comment } },
         { new: true }
     );
 
