@@ -5,6 +5,7 @@ import {
   addRemoveFriend,
 } from "../controllers/users.js";
 import { verifyToken } from "../middleware/auth.js";
+import { forgetPassword, resetPassword } from "../controllers/passwordReset.js";
 
 const router = express.Router();
 
@@ -14,5 +15,7 @@ router.get("/:id/friends", verifyToken, getUserFriends);
 
 /* UPDATE */
 router.patch("/:id/:friendId", verifyToken, addRemoveFriend);
+router.post("/forgetPassword", forgetPassword);
+router.post("/reset-password/:token", resetPassword);
 
 export default router;

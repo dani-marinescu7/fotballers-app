@@ -129,6 +129,22 @@ const Form = () => {
     if (isRegister) await register(values, onSubmitProps);
   };
 
+  const forgotPassword = async (values) => {
+    const forgotPasswordResponse = await fetch("http://localhost:3001/users/forgetPassword", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: values.email }),
+    });
+
+    if (!forgotPasswordResponse.ok) {
+      const errorData = await forgotPasswordResponse.json();
+      console.error("Error response from server:", errorData);
+    } else {
+      const forgotPassword = await forgotPasswordResponse.json();
+      // Handle successful response
+    }
+  };
+
   return (
     <Formik
       onSubmit={handleFormSubmit}
@@ -294,6 +310,21 @@ const Form = () => {
                 ? "Don't have an account? Sign Up here."
                 : "Already have an account? Login here."}
             </Typography>
+            {isLogin
+                ? <Typography
+                    onClick={() => forgotPassword(values)}
+                    sx={{
+                      textDecoration: "underline",
+                      color: palette.primary.main,
+                      "&:hover": {
+                        cursor: "pointer",
+                        color: palette.primary.light,
+                      },
+                    }}
+                >
+                  Forgot password? Click here!
+                  </Typography>
+                : <Typography></Typography>}
           </Box>
         </form>
       )}
