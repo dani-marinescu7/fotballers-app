@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import Form from "./Form";
+import LoginRegisterForm from "./LoginRegisterForm";
 
 const LoginPage = () => {
   const theme = useTheme();
@@ -27,7 +27,7 @@ const LoginPage = () => {
         <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
             Where passionate football fans gather for the latest news and match analysis!
         </Typography>
-        <Form />
+        <LoginRegisterForm />
       </Box>
     </Box>
   );

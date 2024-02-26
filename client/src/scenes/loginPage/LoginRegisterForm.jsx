@@ -71,12 +71,13 @@ const initialValuesLogin = {
   password: "",
 };
 
-const Form = () => {
+const LoginRegisterForm = () => {
   const [pageType, setPageType] = useState("login");
   const [options, setOptions] = useState([]);
   const [favoriteTeam, setFavoriteTeam] = useState("");
   const [forgotPasswordClick, setForgotPasswordClick] = useState(false);
   const [wrongCredentials, setWrongCredentials] = useState(false);
+  const [missingEmail, setMissingEmail] = useState(false);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -140,18 +141,24 @@ const Form = () => {
   };
 
   const forgotPassword = async (values) => {
-    const forgotPasswordResponse = await fetch("http://localhost:3001/users/forgetPassword", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: values.email }),
-    });
-
-    if (!forgotPasswordResponse.ok) {
-      const errorData = await forgotPasswordResponse.json();
-      console.error("Error response from server:", errorData);
+    if (values.email.length === 0) {
+      setMissingEmail(true);
     } else {
-      const forgotPassword = await forgotPasswordResponse.json();
-      setForgotPasswordClick(true);
+      const forgotPasswordResponse = await fetch("http://localhost:3001/users/forgetPassword", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: values.email }),
+      });
+
+      values.email = "";
+
+      if (!forgotPasswordResponse.ok) {
+        const errorData = await forgotPasswordResponse.json();
+        console.error("Error response from server:", errorData);
+      } else {
+        const forgotPassword = await forgotPasswordResponse.json();
+        setForgotPasswordClick(true);
+      }
     }
   };
 
@@ -336,6 +343,7 @@ const Form = () => {
                   </Typography>
                 : <Typography></Typography>}
             {forgotPasswordClick && <Toast message="Please check your email!" severity="success" />}
+            {missingEmail && <Toast message="Please insert your email!" severity="error" />}
             {wrongCredentials && <Toast message="Incorrect username or password. Please try again!" severity="error" />}
           </Box>
         </form>
@@ -344,4 +352,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default LoginRegisterForm;
